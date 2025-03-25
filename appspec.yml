@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: src/app.py
+    destination: /home/ec2-user/app/
+  - source: configs/
+    destination: /home/ec2-user/app/configs/
+hooks:
+  ApplicationStart:
+    - location: scripts/start_app.sh
+      timeout: 300
+      runas: ec2-user
