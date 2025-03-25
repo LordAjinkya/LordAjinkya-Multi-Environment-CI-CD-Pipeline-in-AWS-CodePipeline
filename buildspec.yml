@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: latest  # Change this as per your app's requirement
+      python: latest
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -11,13 +11,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Compiling the code...
-      - BRANCH_NAME=$(echo $CODEBUILD_SOURCE_VERSION | cut -d '/' -f 3) # Extracts branch name
-      - mkdir -p $BRANCH_NAME # Creates the branch-named directory
-      - cp -r * $BRANCH_NAME/ # Copies build artifacts into the branch-named directory
-  post_build:
-    commands:
-      - echo Build completed on `date`
+      - BRANCH_NAME=$(echo $CODEBUILD_SOURCE_VERSION | cut -d '/' -f 3)
+      - mkdir -p $BRANCH_NAME
+      - cp -r !(SourceArti) $BRANCH_NAME/ # Exclude SourceArti
+post_build:
+  commands:
+    - echo Build completed on `date`
 artifacts:
   files:
     - '**/*'
-  base-directory: $BRANCH_NAME # Uses the created branch-named directory
+  base-directory: $BRANCH_NAME
