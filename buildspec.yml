@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: latest  # Change this as per your app's requirement
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling the code...
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dev
