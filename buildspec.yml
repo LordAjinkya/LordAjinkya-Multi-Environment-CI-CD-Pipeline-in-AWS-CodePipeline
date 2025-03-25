@@ -13,10 +13,7 @@ phases:
       - echo Compiling the code...
       - BRANCH_NAME=$(echo $CODEBUILD_SOURCE_VERSION | cut -d '/' -f 3)
       - mkdir -p $BRANCH_NAME
-      - cp -r !(SourceArti) $BRANCH_NAME/ # Exclude SourceArti
-post_build:
-  commands:
-    - echo Build completed on `date`
+      - find . -mindepth 1 -maxdepth 1 ! -name "$BRANCH_NAME" ! -name "SourceArti" -exec cp -r {} $BRANCH_NAME/ \;
 artifacts:
   files:
     - '**/*'
