@@ -11,10 +11,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Compiling the code...
+      - BRANCH_NAME=$(echo $CODEBUILD_SOURCE_VERSION | cut -d '/' -f 3) # Extracts branch name
+      - mkdir -p $BRANCH_NAME # Creates the branch-named directory
+      - cp -r * $BRANCH_NAME/ # Copies build artifacts into the branch-named directory
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
   files:
     - '**/*'
-  base-directory: dev
+  base-directory: $BRANCH_NAME # Uses the created branch-named directory
